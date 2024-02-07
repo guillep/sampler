@@ -4,8 +4,14 @@ Class {
 	#instVars : [
 		'roots'
 	],
-	#category : 'Sampler'
+	#category : #Sampler
 }
+
+{ #category : #'as yet unclassified' }
+NewTimeProfiler >> exportToSTON [
+
+	^ STON toStringPretty: self
+]
 
 { #category : #'as yet unclassified' }
 NewTimeProfiler >> initialize [
@@ -18,8 +24,9 @@ NewTimeProfiler >> initialize [
 NewTimeProfiler >> rootNodeForProcess: aProcess [
 
 	^ roots
-		at: aProcess
-		ifAbsentPut: [ NewTimeProfilerProcessNode new process: aProcess ]
+		  at: aProcess name
+		  ifAbsentPut: [
+		  NewTimeProfilerProcessNode new process: aProcess name ]
 ]
 
 { #category : #'as yet unclassified' }

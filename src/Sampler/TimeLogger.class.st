@@ -11,7 +11,7 @@ TimeLogger >> tallyProcess: aProcess sampledMethod: aMethod weight: tallyTicks g
 	aProcess suspendedContext ifNil: [ ^ self ].
 	Transcript
 		show: 'suspended context: ';
-		show: aProcess suspendedContext method displayString;
+		show: aProcess suspendedContext method displayString lines first;
 		cr;
 		show: 'suspended method: ';
 		show: aMethod displayString;

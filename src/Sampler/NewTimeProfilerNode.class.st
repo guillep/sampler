@@ -8,7 +8,7 @@ Class {
 		'totalWeight',
 		'parent'
 	],
-	#category : 'Sampler'
+	#category : #Sampler
 }
 
 { #category : #'instance creation' }
@@ -28,8 +28,8 @@ NewTimeProfilerNode >> addWeight: anInteger [
 { #category : #accessing }
 NewTimeProfilerNode >> childForMethod: aMethod [
 
-	^ children at: aMethod ifAbsentPut: [
-		  (NewTimeProfilerNode newForMethod: aMethod)
+	^ children at: aMethod displayString lines first ifAbsentPut: [
+		  (NewTimeProfilerNode newForMethod: aMethod displayString lines first)
 			  parent: self;
 			  yourself ]
 ]
