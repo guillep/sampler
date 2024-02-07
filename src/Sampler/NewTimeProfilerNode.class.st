@@ -1,6 +1,6 @@
 Class {
-	#name : 'NewTimeProfilerNode',
-	#superclass : 'Object',
+	#name : #NewTimeProfilerNode,
+	#superclass : #Object,
 	#instVars : [
 		'method',
 		'children',
@@ -8,11 +8,10 @@ Class {
 		'totalWeight',
 		'parent'
 	],
-	#category : 'Sampler',
-	#package : 'Sampler'
+	#category : 'Sampler'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 NewTimeProfilerNode class >> newForMethod: aMethod [
 
 	^ self new
@@ -20,13 +19,13 @@ NewTimeProfilerNode class >> newForMethod: aMethod [
 		  yourself
 ]
 
-{ #category : 'adding' }
+{ #category : #adding }
 NewTimeProfilerNode >> addWeight: anInteger [ 
 	
 	weight := weight + anInteger
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 NewTimeProfilerNode >> childForMethod: aMethod [
 
 	^ children at: aMethod ifAbsentPut: [
@@ -35,18 +34,18 @@ NewTimeProfilerNode >> childForMethod: aMethod [
 			  yourself ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 NewTimeProfilerNode >> children [
 	^ children values
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 NewTimeProfilerNode >> hasChildren [
 	
 	^ children notEmpty
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 NewTimeProfilerNode >> initialize [
 
 	super initialize.
@@ -54,61 +53,61 @@ NewTimeProfilerNode >> initialize [
 	children := OrderedDictionary new
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 NewTimeProfilerNode >> inspectionMethod: aBuilder [
 	<inspectorPresentationOrder: 0 title: 'Method'> 
 	
 	^ method inspectionSource
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 NewTimeProfilerNode >> maxWeight [
 
 	self children ifEmpty: [ ^ weight ].
 	^ weight max: (self children max: [ :e | e maxWeight ])
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 NewTimeProfilerNode >> method [
 	^ method
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 NewTimeProfilerNode >> method: aMethod [
 
 	method := aMethod
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 NewTimeProfilerNode >> name [
 	
 	^ method displayString lines first
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 NewTimeProfilerNode >> parent [
 	
 	^ parent
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 NewTimeProfilerNode >> parent: aNewTimeProfilerNode [ 
 	parent := aNewTimeProfilerNode
 ]
 
-{ #category : 'tallying' }
+{ #category : #tallying }
 NewTimeProfilerNode >> tally: aContext weight: anInteger [ 
 	self shouldBeImplemented.
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 NewTimeProfilerNode >> totalWeight [
 	
 	totalWeight ifNotNil: [ ^ totalWeight ].
 	^ totalWeight := weight + (self children sum: #totalWeight)
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 NewTimeProfilerNode >> weight [
 	^ weight
 ]

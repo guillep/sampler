@@ -1,16 +1,15 @@
 Class {
-	#name : 'VMSampler',
-	#superclass : 'Object',
+	#name : #VMSampler,
+	#superclass : #Object,
 	#instVars : [
 		'ticksPerTally',
 		'profilerSemaphore',
 		'profilerProcess'
 	],
-	#category : 'Sampler',
-	#package : 'Sampler'
+	#category : 'Sampler'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 VMSampler >> highResClock [
 	"Primitive. Answer the value of the high resolution clock if this computer has one.
 	Usually, this should be the highest resolution value available, for example on Intel
@@ -20,7 +19,7 @@ VMSampler >> highResClock [
 	^ 0
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 VMSampler >> initialize [
 
 	super initialize.
@@ -28,14 +27,14 @@ VMSampler >> initialize [
 	ticksPerTally := 200
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 VMSampler >> profile: aBlock [
 
 	self startProfiling.
 	aBlock ensure: [ self stopProfiling ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 VMSampler >> profileSemaphore: aSemaphore [
 	"Primitive. Install the semaphore to be used for profiling,
 	or nil if no semaphore should be used.
@@ -45,7 +44,7 @@ VMSampler >> profileSemaphore: aSemaphore [
 	^ self primitiveFailed
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 VMSampler >> profileStart: counter [
 	"Primitive. Begin profiling execution every by using the interrupt check-counter instead of a time-based process (which is limited to timing resolution and triggers off the same signal that many of the processes being profiled trigger off leading to consistently wrong results).
 	The argument is the number of interrupt checks (method activations) to let go by before taking a sample. The sample is being stored in the profileSample iVar which can be retrieved by executing primitiveProfileSample. When a sample is taken, it signals the semaphore specified in primitiveProfileSemaphore.
@@ -55,7 +54,7 @@ VMSampler >> profileStart: counter [
 	^ self primitiveFailed
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 VMSampler >> startProfiling [
 
 	profilerProcess := [ 
@@ -65,7 +64,7 @@ VMSampler >> startProfiling [
 	] forkAt: Processor timingPriority - 1
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 VMSampler >> stopProfiling [
 
 	Transcript show: 'stop profiling!'; cr.
@@ -77,7 +76,7 @@ VMSampler >> stopProfiling [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 VMSampler >> tally [
 
 	| tallyStart gcTimeStart gcTime tallyTicks talliedProcess |
@@ -104,7 +103,7 @@ VMSampler >> tally [
 		ticksToSample: ticksPerTally
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 VMSampler >> tallyProcess: aProcess sampledMethod: aMethod weight: tallyTicks gcTime: gcTime ticksToSample: ticksToSample [
 	"Hook for subclasses"
 

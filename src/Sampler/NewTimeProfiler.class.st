@@ -1,21 +1,20 @@
 Class {
-	#name : 'NewTimeProfiler',
-	#superclass : 'VMSampler',
+	#name : #NewTimeProfiler,
+	#superclass : #VMSampler,
 	#instVars : [
 		'roots'
 	],
-	#category : 'Sampler',
-	#package : 'Sampler'
+	#category : 'Sampler'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 NewTimeProfiler >> initialize [
 
 	super initialize.
 	roots := Dictionary new
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 NewTimeProfiler >> rootNodeForProcess: aProcess [
 
 	^ roots
@@ -23,7 +22,7 @@ NewTimeProfiler >> rootNodeForProcess: aProcess [
 		ifAbsentPut: [ NewTimeProfilerProcessNode new process: aProcess ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 NewTimeProfiler >> tallyProcess: aProcess sampledMethod: aMethod weight: tallyTicks gcTime: gcTime ticksToSample: ticksToSample [
 	"aContext representing a stack, we must add the weight to the nodes all over the tree"
 

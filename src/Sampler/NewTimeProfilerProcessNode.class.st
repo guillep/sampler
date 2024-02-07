@@ -1,15 +1,20 @@
 Class {
-	#name : 'NewTimeProfilerProcessNode',
-	#superclass : 'NewTimeProfilerNode',
+	#name : #NewTimeProfilerProcessNode,
+	#superclass : #NewTimeProfilerNode,
 	#instVars : [
 		'process'
 	],
-	#category : 'Sampler',
-	#package : 'Sampler'
+	#category : #Sampler
 }
 
-{ #category : 'visualisation' }
+{ #category : #visualisation }
 NewTimeProfilerProcessNode >> flamegraph [
+
+	^ self flamegraph: 0.001	
+]
+
+{ #category : #visualisation }
+NewTimeProfilerProcessNode >> flamegraph: minWeight [
 
 	| builder colorPalette |
 	builder := RSFlameGraph new.
@@ -21,10 +26,10 @@ NewTimeProfilerProcessNode >> flamegraph [
 		modelWeight: [ :f | f totalWeight ];
 		explore: self nesting: [ :e |
 			e children select: [ :c |
-					c hasChildren and: [ c totalWeight / self totalWeight > 0.015 ] ] ]
+					c hasChildren and: [ c totalWeight / self totalWeight > minWeight ] ] ]
 		leaves: [ :e |
 			e children select: [ :c |
-					c hasChildren not and: [ c totalWeight / self totalWeight > 0.015 ] ] ].
+					c hasChildren not and: [ c totalWeight / self totalWeight > minWeight ] ] ].
 	builder build.
 
 	colorPalette := NSScale linear
@@ -55,7 +60,7 @@ NewTimeProfilerProcessNode >> flamegraph [
 		  yourself
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 NewTimeProfilerProcessNode >> process: aProcess [ 
 	
 	process := aProcess
