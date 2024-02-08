@@ -28,8 +28,12 @@ NewTimeProfilerNode >> addWeight: anInteger [
 { #category : #accessing }
 NewTimeProfilerNode >> childForMethod: aMethod [
 
-	^ children at: aMethod displayString lines first ifAbsentPut: [
-		  (NewTimeProfilerNode newForMethod: aMethod displayString lines first)
+	| name |
+	name := aMethod isCompiledBlock
+		ifTrue: [ '[] in ', aMethod method displayString ]
+		ifFalse: [ aMethod displayString ].
+	^ children at: name ifAbsentPut: [
+		  (NewTimeProfilerNode newForMethod: name)
 			  parent: self;
 			  yourself ]
 ]
@@ -55,9 +59,13 @@ NewTimeProfilerNode >> initialize [
 
 { #category : #'as yet unclassified' }
 NewTimeProfilerNode >> inspectionMethod: aBuilder [
-	<inspectorPresentationOrder: 0 title: 'Method'> 
-	
-	^ method inspectionSource
+
+	<inspectorPresentationOrder: 0 title: 'Method'>
+	| split |
+	(method beginsWith: '[]') ifTrue: [ ^ self ].
+	split := method splitOn: '>>'.
+	^ (split first asClass >> (self class evaluate: split second))
+		  inspectionSource
 ]
 
 { #category : #accessing }
